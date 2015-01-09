@@ -1,23 +1,22 @@
 <template name='layout'>
 	<div class="container">
 	<div id="header" class="col-md-12">
-		<p>Register to manage your links. {{>loginButtons align='right'}}</p>
-		
+		<p>Register to manage your links. {{>loginButtons align='right'}}
+		</p>
 	</div>
 	<div id="body">
 		<div id="aside" class="col-md-4">
 			<h1>ShortenedURL.com</h1>
 			<h4>Simple url is the best!</h4>
-
 		</div>
 		<div id="main" class="col-md-7 col-md-offset-1">
 			{{>yield}}
 			
-
-
 		</div>
 	</div>
-	<div id="footer"></div>
+	<div id="footer">
+		
+	</div>
 </div>
 </template>
 
