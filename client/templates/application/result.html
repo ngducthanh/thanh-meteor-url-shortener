@@ -1,0 +1,17 @@
+<template name='result'>
+	<table class="table table-bordered">
+		<tbody>
+			<tr>
+				<th><input type="checkbox"></th>
+				<th>Long URL</th>
+				<th>Short URL</th>
+			</tr>
+			{{#each resultList}}
+				{{>resultItem}}
+			{{/each}}
+			
+		</tbody>
+		
+		
+	</table>
+</template>

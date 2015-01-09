@@ -2,18 +2,20 @@
 	<form id="input">
 		<div class="form-group">
 			 <h4>1.Enter a long URL to make shortened</h4>
-			 <textarea class="form-control" rows="1"></textarea>
+			 <textarea id='input1' class="form-control" rows="1"></textarea>
 		</div>
 		  <p>
-		  	<button class="btn btn-success">Make short URL!</button>
+		  	<input type="submit" value='Make short URL!' class="btn btn-primary">
+		  	
 		  </p>
 				  
 		  <h4>2.Custom your url</h4>
 		  <strong>http://shortenedurl.com/</strong>
-		  <textarea class="form-control" rows="1"></textarea>
+		  <textarea  id='input2' class="form-control" rows="1"></textarea>
 		  <strong>May contain letters, numbers, and dashes.</strong>
 	</form>
 		<div id="output">
 			<h4>3.Your shortened URL</h4>
+			{{>result}}
 		</div>
 </template>
