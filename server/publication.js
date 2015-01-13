@@ -1,3 +1,3 @@
 Meteor.publish('urlList',function(){
-	return UrlList.find();
+  return UrlList.find();
 });

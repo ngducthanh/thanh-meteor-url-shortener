@@ -1,17 +1,14 @@
 <template name='result'>
-	<table class="table table-bordered col-md-12 table-hover">
-		<tbody>
-			<tr>
-				<th class="col-md-1"><input type="checkbox"></th>
-				<th class="col-md-6">Long URL</th>
-				<th class="col-md-5">Short URL</th>
-			</tr>
-			{{#each resultList}}
-				{{>resultItem}}
-			{{/each}}
-			
-		</tbody>
-		
-		
-	</table>
+  <table class="table table-bordered col-md-12 table-hover">
+    <tbody>
+      <tr>
+        <th class="col-md-1"><input type="checkbox"></th>
+        <th class="col-md-6">Long URL</th>
+        <th class="col-md-5">Short URL</th>
+      </tr>
+      {{#each resultList}}
+        {{>resultItem}}
+      {{/each}}
+    </tbody>
+  </table>
 </template>
