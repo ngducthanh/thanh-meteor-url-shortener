@@ -1,28 +1,33 @@
 Template.home.events({
-  'submit form':function(e){
+  'submit form': function(e) {
+    var randomString,
+      defaultUrl,
+      shortUrl,
+      longUrl,
+      urlItem;
     e.preventDefault();
-    function checkUnique (){
-      function makeRandomString(){
+    function checkUnique() {
+      function makeRandomString() {
         return Math.random().toString(36).substring(2,7);
       }
-      var a=makeRandomString();
-      while(UrlList.find({_id:a}).fetch().length!==0){
-        a=makeRandomString();
+      var a = makeRandomString();
+      while ( UrlList.find({_id:a}).fetch().length ) {
+        a = makeRandomString();
       }
       return a;
     }
-    var randomString=checkUnique();
-    var defaultUrl='http://localhost:3000/';
-    var shortUrl=defaultUrl+randomString;
-    var longUrl=$(e.target).find('#input1').val();
-    var urlItem={
-      _id:randomString,
-      longUrl:longUrl,
-      shortUrl:shortUrl
+    randomString = checkUnique();
+    defaultUrl = 'http://localhost:3000/';
+    shortUrl = defaultUrl + randomString;
+    longUrl = $(e.target).find('#long-url-input').val();
+    urlItem = {
+      _id: randomString,
+      longUrl: longUrl,
+      shortUrl: shortUrl
     };
-    if(longUrl){
-      urlItem._id=UrlList.insert(urlItem);
-      $('#input1').val('');
+    if ( longUrl ) {
+      UrlList.insert( urlItem );
+      $('#long-url-input').val('');
     }
   }
 });

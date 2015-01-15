@@ -1,19 +1,19 @@
-<template name='home'>
+<template name="home">
   <form id="input">
     <div class="form-group">
        <h4>1.Enter a long URL to make shortened</h4>
-       <textarea id='input1' class="form-control" rows="1"></textarea>
+       <input id="long-url-input" class="form-control">
     </div>
-      <p>
-        <input type="submit" value='Make a short URL!' class="btn btn-primary">
-      </p>
-      <h4>2.Custom your url</h4>
-      <strong>http://shortenedurl.com/</strong>
-      <textarea  id='input2' class="form-control" rows="1"></textarea>
-      <strong>May contain letters, numbers, and dashes.</strong>
+    <p>
+      <input type="submit" value="Make a short URL!" class="btn btn-primary">
+    </p>
+    <h4>2.Custom your url</h4>
+    <strong>http://shortenedurl.com/</strong>
+    <input id="custom-url-input" class="form-control">
+    <strong>May contain letters, numbers, and dashes.</strong>
   </form>
-    <div id="output">
-      <h4>3.Your shortened URL</h4>
-      {{>result}}
-    </div>
+  <div id="output">
+    <h4>3.Your shortened URL</h4>
+    {{>result}}
+  </div>
 </template>

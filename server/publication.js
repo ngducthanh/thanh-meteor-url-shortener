@@ -1,3 +1,3 @@
-Meteor.publish('urlList',function(){
+Meteor.publish('urlList', function() {
   return UrlList.find();
 });
