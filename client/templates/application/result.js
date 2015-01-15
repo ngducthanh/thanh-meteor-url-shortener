@@ -1,5 +1,5 @@
 Template.result.helpers({
-  resultList:function(){
+  resultList: function() {
     return UrlList.find();
   }
 });
