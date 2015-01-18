@@ -1,29 +1,30 @@
 Meteor.methods({
-  urlInsert: function ( urlAttribute ) {
+  urlInsert: function(longUrl) {
     var randomString,
-     shortUrl;
-    function checkUnique() {
-      function makeRandomString() {
-        return Math.random().toString(36).substring(2,7);
-      }
-      var a = makeRandomString();
-      while ( UrlList.find({_id:a}).fetch().length ) {
-        a = makeRandomString();
-      }
-      return a;
-    }
+        shortUrl,
+        checkUnique = function() {
+          function makeRandomString() {
+           return Math.random().toString(36).substring(2,7);
+          }
+          var a = makeRandomString();
+          while (UrlList.find({
+              urlId: a
+            }).fetch().length) {
+           a = makeRandomString();
+          }
+          return a;
+         };
 
     randomString = checkUnique();
     shortUrl = Meteor.absoluteUrl() + randomString;
 
     urlItem = {
-      _id: randomString,
-      longUrl: urlAttribute.longUrl,
-      shortUrl:shortUrl 
+      urlId: randomString,
+      longUrl: longUrl,
+      shortUrl: shortUrl 
     };
 
-    if ( urlAttribute.longUrl ) {
-      UrlList.insert( urlItem );
-    }
+    if (longUrl) {
+      UrlList.insert(urlItem);
   }
 });
