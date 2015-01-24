@@ -14,6 +14,7 @@ Template.home.events({
       } else  {
         $('#long-url-input').val('');
         $('#custom-url-input').val('');
+        alert("Congratulation!");
       }
     });
   }
