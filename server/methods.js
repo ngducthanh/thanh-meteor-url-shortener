@@ -3,12 +3,10 @@ Meteor.methods({
     var shortUrl,
         urlItem,
         customUrl = urlInput.customUrl,
-        shortUrlExisted,
-        errorUrlExisted = 'Your custom link ' +
-                      'has already existed! ' +
-                      'Please try another one.'
+        errorUrlExists = 'Your custom link has already existed! ' +
+                         'Please try another one.';
     
-    function findShortUrl(newShortUrl) {
+    function shortUrlExists(newShortUrl) {
       var result = UrlList.find({
           shortUrl: newShortUrl
         }).fetch().length;
@@ -16,20 +14,18 @@ Meteor.methods({
     }
     function makeUniqueShortUrl() {
       var randomShortUrl = Random.id(5);
-      while ( findShortUrl(randomShortUrl) ) {
+      while ( shortUrlExists(randomShortUrl) ) {
         randomShortUrl = Random.id(5);
       }
       return randomShortUrl;
     }
 
-    shortUrlExisted = findShortUrl(customUrl);
-
     if ( !customUrl ) {
       shortUrl = makeUniqueShortUrl();
-    } else if ( shortUrlExisted ) {
+    } else if ( shortUrlExists(customUrl) ) {
       throw new Meteor.Error(
-          'shortUrlExisted',
-          errorUrlExisted
+          'shortUrlExists',
+          errorUrlExists
         );
     } else {
       shortUrl = customUrl;
@@ -40,7 +36,7 @@ Meteor.methods({
       shortUrl: shortUrl 
     };
 
-    if (urlInput.longUrl) {
+    if ( urlInput.longUrl ) {
       UrlList.insert(urlItem);
     }
   }
