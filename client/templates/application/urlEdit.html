@@ -1,0 +1,30 @@
+<template name="urlEdit" id='abc'>
+  <table class="table table-bordered col-md-12 table-hover">
+      <tbody>
+        <tr>
+          <th class="col-md-1"><input type="checkbox"></th>
+          <th class="col-md-5">Long URL</th>
+          <th class="col-md-5">Short URL</th>
+          <th class="col-md-1">Status</th>
+        </tr>
+        <tr>
+          <td><input type="checkbox"></td>
+          <td>{{longUrl}}</td>
+          <td>{{hostname}}{{shortUrl}}</td>
+          <td id="urlStatus">{{status}}</td>
+        </tr>
+      </tbody>
+  </table>
+  <div>
+    <div class="radio">
+      <p><strong>Change your URL status:</strong></p>
+      <label>
+        <input type="radio" name="status" id="private" value="private">Private
+      </label>
+      <label>
+        <input type="radio" name="status" id="public" value="public">Public
+      </label>
+    </div>
+    <h4><input type="button" value="Save" class="btn btn-danger btn-sm" id="save"> </h4>
+  </div>
+</template>
