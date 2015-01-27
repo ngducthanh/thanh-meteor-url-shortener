@@ -1,7 +1,12 @@
 Template.redirectLink.rendered = function() {
-  Session.set('redirectLinkStatus', false);
-  function makeRedirectLinkReady() {
-    Session.set('redirectLinkStatus', true);
+  var url = this.data,
+      redirectLink = url && url.longUrl;
+  if ( redirectLink ) {
+    function redirect() {
+      location = url.longUrl;
+    }
+    Meteor.setInterval(redirect, 2000);
+  } else {
+    Router.go('/notfound');
   }
-  Meteor.setInterval(makeRedirectLinkReady, 2000);
 };
