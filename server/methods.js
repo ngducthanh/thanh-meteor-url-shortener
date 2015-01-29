@@ -23,9 +23,14 @@ Meteor.methods({
   },
   urlUpdate: function(editedUrl) {
     var originalUrl = UrlList.findOne({shortUrl: editedUrl.shortUrl}),
-        isOwnerOfUrl = ( this.userId === originalUrl.author ) || 
-                       ( originalUrl.status === 'public'),
+        isOwnerOfUrl,
         author;
+    if ( originalUrl ) {
+      isOwnerOfUrl = (( originalUrl.author === this.userId ) && 
+                      ( originalUrl.status === 'private')) || 
+                        (( originalUrl.author === null ) && 
+                          ( originalUrl.status === 'public'));
+    }
     if ( editedUrl.status === 'private') {
       author = this.userId;
     } else {

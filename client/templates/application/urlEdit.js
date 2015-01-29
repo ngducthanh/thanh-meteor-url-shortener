@@ -1,7 +1,7 @@
 Template.urlEdit.helpers({
   checkboxStatus: function() {
-    if ( UrlList.findOne() ) {
-      if ( UrlList.findOne().status === 'private') {
+    if ( this ) {
+      if ( this.status === 'private') {
         return true;
       } else {
         return false;
@@ -14,7 +14,7 @@ Template.urlEdit.helpers({
 });
 Template.urlEdit.events({
   'click #save': function() {
-    if ( UrlList.findOne() ) {
+    if ( this ) {
       var newStatus;
       if ( $('#private').is(':checked') ) {
         newStatus = 'private';
@@ -22,7 +22,7 @@ Template.urlEdit.events({
         newStatus = 'public'
       }
       var editedUrl = {
-        shortUrl: UrlList.findOne().shortUrl,
+        shortUrl: this.shortUrl,
         status: newStatus
       };
       Meteor.call('urlUpdate', editedUrl);
