@@ -1,6 +1,10 @@
-td{
+td {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   max-width: 200px;
+}
+.resultTable {
+  max-height: 250px;
+  overflow: auto;
 }

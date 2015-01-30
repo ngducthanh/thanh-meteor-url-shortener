@@ -2,9 +2,16 @@ Meteor.methods({
   urlInsert: function(urlInput) {
     var shortUrl,
         urlItem,
+        status,
+        author = Meteor.userId(),
         customUrl = urlInput.customUrl,
         errorUrlExists = 'Your custom link has already existed! ' +
                          'Please try another one.';
+    if ( author ) {
+      status = 'private';
+    } else {
+      status = 'public'
+    }
     
     function shortUrlExists(newShortUrl) {
       var result = UrlList.find({
@@ -33,7 +40,9 @@ Meteor.methods({
 
     urlItem = {
       longUrl: urlInput.longUrl,
-      shortUrl: shortUrl 
+      shortUrl: shortUrl,
+      author: author,
+      status: status
     };
 
     if ( urlInput.longUrl ) {
