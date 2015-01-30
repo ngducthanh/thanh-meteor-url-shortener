@@ -1,23 +1,51 @@
 Meteor.methods({
-  urlInsert: function(longUrl) {
-    var shortUrl = Random.id(5),
+  urlInsert: function(urlInput) {
+    var shortUrl,
         urlItem,
         status,
-        author = Meteor.userId();
+        author = Meteor.userId(),
+        customUrl = urlInput.customUrl,
+        errorUrlExists = 'Your custom link has already existed! ' +
+                         'Please try another one.';
     if ( author ) {
       status = 'private';
     } else {
       status = 'public'
     }
 
+    function shortUrlExists(newShortUrl) {
+      var result = UrlList.find({
+          shortUrl: newShortUrl
+        }).fetch().length;
+      return !!result;
+    }
+    function makeUniqueShortUrl() {
+      var randomShortUrl = Random.id(5);
+      while ( shortUrlExists(randomShortUrl) ) {
+        randomShortUrl = Random.id(5);
+      }
+      return randomShortUrl;
+    }
+
+    if ( !customUrl ) {
+      shortUrl = makeUniqueShortUrl();
+    } else if ( shortUrlExists(customUrl) ) {
+      throw new Meteor.Error(
+          'shortUrlExists',
+          errorUrlExists
+        );
+    } else {
+      shortUrl = customUrl;
+    }
+
     urlItem = {
-      longUrl: longUrl,
+      longUrl: urlInput.longUrl,
       shortUrl: shortUrl,
       author: author,
-      status: status
+      status: status 
     };
 
-    if ( longUrl ) {
+    if ( urlInput.longUrl ) {
       UrlList.insert(urlItem);
     }
   },
