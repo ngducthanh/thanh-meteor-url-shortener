@@ -50,25 +50,47 @@ Meteor.methods({
     }
   },
   urlUpdate: function(editedUrl) {
-    var originalUrl = UrlList.findOne({shortUrl: editedUrl.shortUrl}),
+    var originalUrl = UrlList.findOne({_id: editedUrl._id}),
         isOwnerOfUrl,
         author;
+    function shortUrlExists(_id, newShortUrl) {
+      var result = UrlList.find({
+          _id: {$ne: _id},
+          shortUrl: newShortUrl
+        }).fetch().length;
+      return !!result;
+    }
+    
+    if ( editedUrl.status === 'private') {
+      author = this.userId;
+    } else {
+      author = null;
+    }
+    if ( !editedUrl.shortUrl ) {
+      throw new Meteor.Error('emptyShortUrl',
+          'Short link must not be empty!');
+    }
+    if ( shortUrlExists( editedUrl._id, editedUrl.shortUrl ) ) {
+      throw new Meteor.Error(
+          'shortUrlExists',
+          'Your short link has existed. Please choose another one.'
+        );
+    }
+
     if ( originalUrl ) {
       isOwnerOfUrl = (( originalUrl.author === this.userId ) && 
                       ( originalUrl.status === 'private')) || 
                         (( originalUrl.author === null ) && 
                           ( originalUrl.status === 'public'));
     }
-    if ( editedUrl.status === 'private') {
-      author = this.userId;
-    } else {
-      author = null;
-    }
     if ( isOwnerOfUrl ) {
-      UrlList.update({shortUrl: editedUrl.shortUrl}, 
+      UrlList.update({_id: editedUrl._id}, 
                       {$set: {
                         status: editedUrl.status, 
-                        author: author}});
+                        author: author,
+                        shortUrl: editedUrl.shortUrl,
+                        longUrl: editedUrl.longUrl
+                      }});
     }
   }
 });

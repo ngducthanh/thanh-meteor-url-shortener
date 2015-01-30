@@ -14,18 +14,29 @@ Template.urlEdit.helpers({
 });
 Template.urlEdit.events({
   'click #save': function() {
-    if ( this ) {
-      var newStatus;
-      if ( $('#private').is(':checked') ) {
-        newStatus = 'private';
-      } else {
-        newStatus = 'public'
-      }
-      var editedUrl = {
-        shortUrl: this.shortUrl,
-        status: newStatus
-      };
-      Meteor.call('urlUpdate', editedUrl);
+    var newStatus,
+        editedUrl;
+
+    if ( $('#private').is(':checked') ) {
+      newStatus = 'private';
+    } else {
+      newStatus = 'public'
     }
+    
+    editedUrl = {
+      longUrl: $('#longUrl').val(),
+      shortUrl: $('#shortUrl').val(),
+      status: newStatus,
+      _id: this._id
+    };
+
+    Meteor.call('urlUpdate', editedUrl, function(error, result) {
+      if ( error ) {
+        return alert(error.reason);
+      } else {
+        alert('Congratulation !');
+        Router.go('/');
+      }
+    });
   }
 });
