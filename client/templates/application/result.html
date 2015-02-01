@@ -5,8 +5,11 @@
         <tr>
           <th class="col-md-1"><input type="checkbox"></th>
           <th class="col-md-6">Long URL</th>
-          <th class="col-md-4">Short URL</th>
-          <th class="col-md-1"><strong>Edit</strong></th>
+          <th class="col-md-3">Short URL</th>
+          <th class="col-md-1">Accessed</th>
+          <th class="col-md-1">
+            <strong>Edit</strong>
+          </th>
         </tr>
         {{#each publicResultList}}
           {{>resultItem}}
@@ -23,7 +26,8 @@
         <tr>
           <th class="col-md-1"><input type="checkbox"></th>
           <th class="col-md-6">Long URL</th>
-          <th class="col-md-4">Short URL</th>
+          <th class="col-md-3">Short URL</th>
+          <th class="col-md-1">Accessed</th>
           <th class="col-md-1"><strong>Edit</strong></th>
         </tr>
         {{#each privateResultList}}

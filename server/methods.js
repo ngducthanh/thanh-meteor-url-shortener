@@ -42,7 +42,8 @@ Meteor.methods({
       longUrl: urlInput.longUrl,
       shortUrl: shortUrl,
       author: author,
-      status: status 
+      status: status,
+      accessedUrlCount: 0 
     };
 
     if ( urlInput.longUrl ) {
@@ -92,5 +93,10 @@ Meteor.methods({
                         longUrl: editedUrl.longUrl
                       }});
     }
+  },
+  countAccessedUrl: function(_id) {
+    UrlList.update({_id: _id},{
+      $inc: {accessedUrlCount: 1}
+    });
   }
 });

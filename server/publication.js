@@ -10,6 +10,8 @@ Meteor.publish('urlList', function(shortUrl) {
         $or: [{author: this.userId}, {author: null}]
       });
     }
+  } else if ( shortUrl ) {
+    return UrlList.find({shortUrl: shortUrl});
   } else {
     return UrlList.find({status: 'public'});
   }
