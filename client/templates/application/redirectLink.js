@@ -8,10 +8,15 @@ Template.redirectLink.rendered = function() {
   
   if ( this.data && redirectUrlExists(this.data._id) ) {
     var redirectUrl = this.data.longUrl;
-    Meteor.call('countAccessedUrl', this.data._id);
-    Meteor.setInterval(function() {
-        location = redirectUrl;
-      }, 2000);
+    Meteor.call('countAccessedUrl', this.data._id, function(error, result) {
+      if ( error ) {
+        return alert(error.reason);
+      } else {
+        Meteor.setInterval(function() {
+            location = redirectUrl;
+          }, 2000);
+      }
+    });
   } else {
     Router.go('/notfound');
   }
