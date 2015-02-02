@@ -1,0 +1,36 @@
+<template name="urlEdit">
+  <table class="table table-bordered table-hover">
+      <tbody>
+        <tr>
+          <th class="col-md-1"><input type="checkbox"></th>
+          <th class="col-md-5">Long URL</th>
+          <th class="col-md-5">Short URL: {{hostname}}</th>
+          <th class="col-md-1">Status</th>
+        </tr>
+        <tr>
+          <td><input type="checkbox"></td>
+          <td><input class="form-control" type="text" value="{{longUrl}}" id="longUrl"></td>
+          <td><input class="form-control" type="text" value="{{shortUrl}}" id="shortUrl"></td>
+          <td>{{status}}</td>
+        </tr>
+      </tbody>
+  </table>
+  <div>
+    <div class="checkbox">
+      <p>
+        <strong>
+          Check or uncheck to change your URL status:
+        </strong>
+      </p>
+      <label>
+        <input type="checkbox" name="status" id="private"
+                value="private" checked="{{checkboxStatus}}">
+          Private
+      </label>
+    </div>
+    <h4>
+      <input type="button" value="Save" 
+            class="btn btn-danger btn-sm" id="save">
+    </h4>
+  </div>
+</template>
