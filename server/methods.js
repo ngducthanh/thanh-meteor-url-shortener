@@ -21,6 +21,18 @@ Meteor.methods({
       }
       return randomShortUrl;
     }
+
+    check(urlInput, {
+      longUrl: String,
+      customUrl: String
+    });
+
+    if ( !Helpers.validateLongUrl(urlInput.longUrl) ) {
+      throw new Meteor.Error(
+        'invalidUrl', 
+        'Your URL is invalid.\nPlease enter another one!');
+    }
+
     if ( author ) {
       status = 'private';
     } else {
@@ -29,6 +41,9 @@ Meteor.methods({
 
     if ( !customUrl ) {
       shortUrl = makeUniqueShortUrl();
+    } else if ( Helpers.validateShortUrl(customUrl) ) {
+      throw new Meteor.Error('invalidCustomUrl',
+        'Your custom URL contains invalid character (e.g: !@#$%^&*).');
     } else if ( shortUrlExists(customUrl) ) {
       throw new Meteor.Error(
           'shortUrlExists',
@@ -62,20 +77,38 @@ Meteor.methods({
       return !!result;
     }
     
-    if ( editedUrl.status === 'private') {
-      author = this.userId;
-    } else {
-      author = null;
+    check(editedUrl, {
+      longUrl: String,
+      shortUrl: String,
+      _id: String,
+      status: String
+    });
+
+    if ( !Helpers.validateLongUrl(editedUrl.longUrl) ) {
+      throw new Meteor.Error(
+        'invalidUrl', 
+        'Your URL contains invalid character.\nPlease enter another one!');
+    }
+    if ( Helpers.validateShortUrl(editedUrl.shortUrl) ) {
+      throw new Meteor.Error('invalidCustomUrl',
+        'Your short URL contains invalid character (e.g: !@#$%^&*).');
     }
     if ( !editedUrl.shortUrl ) {
       throw new Meteor.Error('emptyShortUrl',
           'Short link must not be empty!');
     }
+   
     if ( shortUrlExists( editedUrl._id, editedUrl.shortUrl ) ) {
       throw new Meteor.Error(
           'shortUrlExists',
           'Your short link has existed. Please choose another one.'
         );
+    }
+    
+    if ( editedUrl.status === 'private') {
+      author = this.userId;
+    } else {
+      author = null;
     }
 
     if ( originalUrl ) {
