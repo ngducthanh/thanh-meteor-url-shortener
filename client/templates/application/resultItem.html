@@ -2,7 +2,17 @@
   <tr>
     <td><input type="checkbox"></td>
     <td>{{longUrl}}</td>
-    <td>{{hostname}}{{shortUrl}}</td>
+    <td>
+      <a href="{{pathFor 'redirectLink'}}">
+        {{hostname}}{{shortUrl}}
+      </a>
+    </td>
+    <td>{{accessedUrlCount}}</td>
+    <td>
+      <a href="{{pathFor 'urlEdit'}}">
+        <input type="button" class="btn btn-sm btn-success" value="Edit">
+      </a>
+    </td>
   </tr>
 </template>
 
