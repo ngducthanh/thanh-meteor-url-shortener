@@ -128,6 +128,7 @@ Meteor.methods({
     }
   },
   countAccessedUrl: function(_id) {
+    check(_id, String);
     UrlList.update({_id: _id},{
       $inc: {accessedUrlCount: 1}
     });
