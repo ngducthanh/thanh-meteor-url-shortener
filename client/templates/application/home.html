@@ -2,6 +2,7 @@
   <form id="input">
     <div class="form-group">
        <h4>1.Enter a long URL to make shortened</h4>
+       <strong>Ex: http://www.abc.com</strong>
        <input id="long-url-input" class="form-control">
     </div>
     <p>
@@ -14,6 +15,9 @@
   </form>
   <div id="output">
     <h4>3.Your shortened URL</h4>
-    {{>result}}
-  </div>
+    <h5>Public result:</h5>
+      {{>publicResult}}
+    <h5>Private result</h5>
+      {{>privateResult}}
+   </div>
 </template>

@@ -12,3 +12,6 @@ ian:accounts-ui-bootstrap-3
 accounts-password
 iron:router
 random
+sacha:spin
+coffeescript
+mquandalle:jade
