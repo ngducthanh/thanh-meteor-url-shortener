@@ -82,13 +82,13 @@ Meteor.methods
       author = @userId
     else
       author = null
-
+    
     if originalUrl
-      author = originalUrl.author
-      status = originalUrl.status
-      loginUserEdit = (author is @userId) and (status is 'private')
-      publicUserEdit = (author is null) and (status is 'public')
-      isOwnerOfUrl = loginUserEdit or publicUserEdit
+      isOwnerOfUrl = ->
+        ((originalUrl.author is @userId) and 
+          (originalUrl.status is 'private')) or 
+        ((originalUrl.author is null) and 
+          (originalUrl.status is 'public'))
     
     if isOwnerOfUrl 
       UrlList.update {_id: editedUrl._id},

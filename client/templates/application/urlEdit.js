@@ -20,7 +20,7 @@ Template.urlEdit.events({
     if ( $('#private').is(':checked') ) {
       newStatus = 'private';
     } else {
-      newStatus = 'public'
+      newStatus = 'public';
     }
     
     editedUrl = {
