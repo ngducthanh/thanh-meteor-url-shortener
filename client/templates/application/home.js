@@ -3,9 +3,11 @@ Template.home.events({
     e.preventDefault();
     var longUrl = $(e.target).find('#long-url-input').val(),
         customUrl = $(e.target).find('#custom-url-input').val(),
+        isPrivate = $('#private').is(':checked') ? true : false,
         urlInput = {
           longUrl: longUrl,
-          customUrl: customUrl
+          customUrl: customUrl,
+          isPrivate: isPrivate
         };
 
     Meteor.call('urlInsert', urlInput, function(error, result) {

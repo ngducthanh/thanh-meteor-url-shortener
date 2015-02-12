@@ -1,23 +1,31 @@
 <template name="home">
-  <form id="input">
-    <div class="form-group">
-       <h4>1.Enter a long URL to make shortened</h4>
-       <strong>Ex: http://www.abc.com</strong>
-       <input id="long-url-input" class="form-control">
-    </div>
-    <p>
-      <input type="submit" value="Make a short URL!" class="btn btn-primary">
-    </p>
-    <h4>2.Custom your url</h4>
-    <strong>http://shortenedurl.com/</strong>
-    <input id="custom-url-input" class="form-control">
-    <strong>May contain letters, numbers, and dashes.</strong>
-  </form>
-  <div id="output">
-    <h4>3.Your shortened URL</h4>
-    <h5>Public result:</h5>
-      {{>publicResult}}
-    <h5>Private result</h5>
-      {{>privateResult}}
-   </div>
+  <div id="main">
+    <ul class="nav nav-tabs nav-pills" role="tablist">
+      <li class="active"><a href="/">Public</a></li>
+      <li><a href="/private">Private</a></li>
+    </ul>
+    <form id="input">
+      <div class="form-group">
+        <h4>1.Enter a long URL to make shortened</h4>
+        <strong>Ex: http://www.abc.com</strong>
+        <input id="long-url-input" class="form-control">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" id="private"> Private
+          </label>
+        </div>
+        <p>
+          <input type="submit" value="Make a short URL!" class="btn btn-primary">
+        </p>
+        <h4>2.Custom your url</h4>
+        <strong>http://shortenedurl.com/</strong>
+        <input id="custom-url-input" class="form-control">
+        <strong>May contain letters, numbers, and dashes.</strong>
+      </div>
+    </form>
+      <div id="output">
+        <h4>3.Your shortened URL</h4>
+          {{>result}}
+      </div>
+  </div> 
 </template>

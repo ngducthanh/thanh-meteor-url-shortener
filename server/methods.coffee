@@ -1,5 +1,6 @@
 Meteor.methods 
   urlInsert: (urlInput) ->
+    isPrivate = urlInput.isPrivate
     customUrl = urlInput.customUrl
     author = Meteor.userId()
     shortUrlExists = (newShortUrl)->
@@ -17,6 +18,8 @@ Meteor.methods
     check urlInput, 
       longUrl: String
       customUrl: String
+      isPrivate: Boolean
+
     if not Helpers.validateLongUrl urlInput.longUrl
       throw new Meteor.Error 'invalidUrl', 'Your URL is invalid ' + 
         'Please enter another one!'
