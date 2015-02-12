@@ -1,55 +1,39 @@
 Meteor.methods 
   urlInsert: (urlInput) ->
-    isPrivate = urlInput.isPrivate
-    customUrl = urlInput.customUrl
-    author = Meteor.userId()
+    check urlInput, 
+      longUrl: String
+      customUrl: Match.Optional(String)
+      isPrivate: Boolean
+
     shortUrlExists = (newShortUrl)->
-      result = UrlList.find
-          shortUrl: newShortUrl
-        .fetch().length
-      !!result
+      !!UrlList.find
+                  shortUrl: newShortUrl
+                .fetch().length
 
     makeUniqueShortUrl = ->
       randomShortUrl = Random.id 5
       while shortUrlExists randomShortUrl
         randomShortUrl = Random.id 5
       randomShortUrl
-    
-    check urlInput, 
-      longUrl: String
-      customUrl: String
-      isPrivate: Boolean
 
-    if not Helpers.validateLongUrl urlInput.longUrl
-      throw new Meteor.Error 'invalidUrl', 'Your URL is invalid ' + 
-        'Please enter another one!'
-    
-    if author
-      status = 'private'
-    else
-      status = 'public'
-  
-    if not customUrl
+    Helpers.validateLongUrl urlInput.longUrl
+
+    if not urlInput.customUrl
       shortUrl = makeUniqueShortUrl()
-    else if Helpers.validateShortUrl customUrl
-      throw new Meteor.Error 'invalidCustomUrl', 'Your custom URL ' +  
-        'contains invalid character (e.g: !@#$%^&*).'
-    else if shortUrlExists customUrl
-      throw new Meteor.Error 'shortUrlExists', 'Your custom link ' + 
-        'has already existed! Please try another one.'
     else
-      shortUrl = customUrl
+      Helpers.validateCustomUrl urlInput.customUrl
+      if shortUrlExists urlInput.customUrl
+        throw new Meteor.Error 'shortUrlExists', 'Your custom link ' + 
+        'has already existed! Please try another one.'
+      shortUrl = urlInput.customUrl
 
-    urlItem = 
+    UrlList.insert 
       longUrl: urlInput.longUrl
       shortUrl: shortUrl
-      author: author
-      status: status
+      author: Meteor.userId()
+      isPrivate: urlInput.isPrivate
       accessedUrlCount: 0
-    
-    if urlInput.longUrl
-      UrlList.insert urlItem
-  
+
   urlUpdate: (editedUrl)->
     originalUrl = UrlList.findOne
                       _id: editedUrl._id

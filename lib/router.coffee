@@ -7,22 +7,19 @@ Router.route '/',
   name: 'home'
   template: 'home'
   subscriptions: ->
-    Meteor.subscribe 'urlList'
+    Meteor.subscribe 'publicUrlList'
   data: ->
     {urlList: ->
-      UrlList.find
-        status: 'public'
+      UrlList.find()
     }
 
 Router.route '/private',
   template: 'home'
   subscriptions: ->
-    Meteor.subscribe 'urlList'
+    Meteor.subscribe 'privateUrlList'
   data: ->
     {urlList: ->
-      UrlList.find
-        status: 'private'
-        author: Meteor.userId()
+      UrlList.find()
     }
 
 Router.route '/url/notFound',
@@ -37,7 +34,7 @@ requireLogin = ->
 Router.route '/urlEdit/:shortUrl',
   name: 'urlEdit'
   waitOn: ->
-    Meteor.subscribe 'urlList', @params.shortUrl
+    Meteor.subscribe 'privateUrlList', @params.shortUrl
   data: ->
     UrlList.findOne
       shortUrl: @params.shortUrl

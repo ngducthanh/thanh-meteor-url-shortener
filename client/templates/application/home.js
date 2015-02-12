@@ -16,6 +16,7 @@ Template.home.events({
       } else  {
         $('#long-url-input').val('');
         $('#custom-url-input').val('');
+        $('#private').prop('checked', false);
         alert("Congratulation!");
       }
     });
