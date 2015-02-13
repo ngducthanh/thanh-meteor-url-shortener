@@ -1,8 +1,8 @@
 <template name="home">
   <div id="main">
     <ul class="nav nav-tabs nav-pills" role="tablist">
-      <li class="active"><a href="/">Public</a></li>
-      <li><a href="/private">Private</a></li>
+      <li class="{{ activeIfRouteIs '/'}}"><a href="/">Public</a></li>
+      <li class="{{ activeIfRouteIs '/url/private' }}"><a href="/url/private">Private</a></li>
     </ul>
     <form id="input">
       <div class="form-group">
@@ -10,9 +10,11 @@
         <strong>Ex: http://www.abc.com</strong>
         <input id="long-url-input" class="form-control">
         <div class="checkbox">
-          <label>
-            <input type="checkbox" id="private"> Private
-          </label>
+          {{#if loginOrNot}}
+            <label>
+              <input type="checkbox" id="private"> Private
+            </label>
+          {{/if}}
         </div>
         <p>
           <input type="submit" value="Make a short URL!" class="btn btn-primary">

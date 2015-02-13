@@ -1,16 +1,16 @@
 <template name="resultItem">
   <tr>
-    <td><input type="checkbox"></td>
     <td>{{longUrl}}</td>
     <td>
       <a href="/{{shortUrl}}">
         {{hostname}}{{shortUrl}}
       </a>
     </td>
+    <td>{{status}}</td>
     <td>{{accessedUrlCount}}</td>
     <td>
       <a href="{{pathFor 'urlEdit'}}">
-        <input type="button" class="btn btn-sm btn-success" value="Edit">
+        <input type="button" class="btn btn-sm btn-success" value="Edit" {{canBeEditted}}>
       </a>
     </td>
   </tr>

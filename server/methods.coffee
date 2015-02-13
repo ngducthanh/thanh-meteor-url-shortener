@@ -7,10 +7,16 @@ Meteor.methods
       _id: Match.Optional(String)
       author: Match.Optional(String)
 
-    shortUrlExists = (newShortUrl)->
-      !!UrlList.find
-                  shortUrl: newShortUrl
-                .fetch().length
+    shortUrlExists = (newShortUrl, _id)->
+      if _id
+        !!UrlList.find
+                    _id: $ne: _id
+                    shortUrl: newShortUrl
+                 .fetch().length
+      else
+        !!UrlList.find
+                    shortUrl: newShortUrl
+                  .fetch().length
 
     makeUniqueShortUrl = ->
       randomShortUrl = Random.id 5
@@ -27,6 +33,9 @@ Meteor.methods
       if (UrlList.findOne _id: urlInput._id)?.author is urlInput.author
         if not urlInput.customUrl
           throw new Meteor.Error 'emptyShortUrl', 'Your ShortUrl must not be empty!'
+        
+        if shortUrlExists urlInput.customUrl, urlInput._id
+          throw new Meteor.Error 'shortUrlExists', 'Your short link has existed!'
         UrlList.update {_id: urlInput._id},
           $set: 
             longUrl: urlInput.longUrl

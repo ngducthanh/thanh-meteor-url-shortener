@@ -5,7 +5,8 @@ td {
   max-width: 200px;
 }
 .resultTable {
-  max-height: 250px;
+  max-height: 300px;
   overflow: auto;
+  margin-bottom: 50px;
 }
 

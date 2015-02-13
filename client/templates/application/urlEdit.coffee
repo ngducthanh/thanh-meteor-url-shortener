@@ -18,4 +18,4 @@ Template.urlEdit.events
         Errors.insert 
           message: error.reason
       else
-        Router.go('/private')
+        Router.go('/url/private')

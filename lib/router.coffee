@@ -13,7 +13,7 @@ Router.route '/',
       UrlList.find()
     }
 
-Router.route '/private',
+Router.route '/url/private',
   name: 'private'
   template: 'home'
   subscriptions: ->
@@ -32,7 +32,7 @@ requireLogin = ->
   else
     @next()
     
-Router.route '/urlEdit/:shortUrl',
+Router.route '/url/edit/:shortUrl',
   name: 'urlEdit'
   subscriptions: ->
     Meteor.subscribe 'privateUrlList', @params.shortUrl

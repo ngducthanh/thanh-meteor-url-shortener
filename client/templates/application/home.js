@@ -26,3 +26,14 @@ Template.home.events({
     });
   }
 });
+
+Template.home.helpers({
+  loginOrNot: function() {
+    return Meteor.userId();
+  },
+  activeIfRouteIs: function(route) {
+    var currentRoute = Iron.Location.get().path;
+    return currentRoute && 
+      route == currentRoute ? 'active' : '';
+  }
+});
