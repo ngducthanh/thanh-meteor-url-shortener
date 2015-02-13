@@ -14,6 +14,7 @@ Router.route '/',
     }
 
 Router.route '/private',
+  name: 'private'
   template: 'home'
   subscriptions: ->
     Meteor.subscribe 'privateUrlList'
@@ -22,29 +23,29 @@ Router.route '/private',
       UrlList.find()
     }
 
-Router.route '/url/notFound',
+Router.route '/url/notfound',
   name: 'notFound'
       
 requireLogin = ->
-  if not Meteor.user()
+  if not Meteor.userId()
     @render 'accessDenied'
   else
     @next()
     
 Router.route '/urlEdit/:shortUrl',
   name: 'urlEdit'
-  waitOn: ->
+  subscriptions: ->
     Meteor.subscribe 'privateUrlList', @params.shortUrl
   data: ->
     UrlList.findOne
       shortUrl: @params.shortUrl
       
 Router.onBeforeAction requireLogin, 
-  only: 'urlEdit'
+  only: ['private', 'urlEdit', 'redirectLink']
   
 Router.route '/redirect/:shortUrl', 
   name: 'redirectLink'
-  waitOn: ->
+  subscriptions: ->
     Meteor.subscribe 'privateUrlList', @params.shortUrl
   data: ->
     UrlList.findOne
