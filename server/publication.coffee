@@ -5,10 +5,12 @@ Meteor.publish 'publicUrlList', ->
 Meteor.publish 'privateUrlList', (shortUrl)->
   check shortUrl, Match.Optional(String)
   if @userId
-    if shortUrl
-      UrlList.find
+    UrlList.find
         author: @userId
-        shortUrl: shortUrl
-    else
-      UrlList.find
-        author: @userId
+  else
+    UrlList.find shortUrl: shortUrl,
+      fields:
+        author: 0
+        longUrl: 0
+        isPrivate: 0
+        accessedUrlCount: 0

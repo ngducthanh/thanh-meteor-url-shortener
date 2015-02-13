@@ -31,11 +31,13 @@ Meteor.methods
 
     if urlInput._id and urlInput.author
       if (UrlList.findOne _id: urlInput._id)?.author is urlInput.author
+        
         if not urlInput.customUrl
           throw new Meteor.Error 'emptyShortUrl', 'Your ShortUrl must not be empty!'
         
         if shortUrlExists urlInput.customUrl, urlInput._id
           throw new Meteor.Error 'shortUrlExists', 'Your short link has existed!'
+        
         UrlList.update {_id: urlInput._id},
           $set: 
             longUrl: urlInput.longUrl
@@ -46,6 +48,7 @@ Meteor.methods
     else
       if not urlInput.customUrl
         shortUrl = makeUniqueShortUrl()
+      
       else
         if shortUrlExists urlInput.customUrl
           throw new Meteor.Error 'shortUrlExists', 'Your custom link ' + 

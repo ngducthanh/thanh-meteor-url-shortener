@@ -45,7 +45,7 @@ Router.onBeforeAction requireLogin,
   
 Router.route '/redirect/:shortUrl', 
   name: 'redirectLink'
-  subscriptions: ->
+  waitOn: ->
     Meteor.subscribe 'privateUrlList', @params.shortUrl
   data: ->
     UrlList.findOne
@@ -65,8 +65,7 @@ serverSideRoutingFunction = ->
   else
     UrlList.update shortUrl: redirectUrl.shortUrl,
       $inc:
-        accessedUrlCount: 1
-        
+        accessedUrlCount: 1 
     location = redirectUrl.longUrl
     
   @response.writeHead 302, 'Location': location
