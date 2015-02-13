@@ -15,7 +15,7 @@ Template.urlEdit.events
 
     Meteor.call 'urlInsert', urlInput, (error, reason)->
       if error
-        alert error.reason
+        Errors.insert 
+          message: error.reason
       else
-        alert 'Congratualation'
         Router.go('/private')

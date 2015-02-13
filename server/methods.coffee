@@ -25,6 +25,8 @@ Meteor.methods
 
     if urlInput._id and urlInput.author
       if (UrlList.findOne _id: urlInput._id)?.author is urlInput.author
+        if not urlInput.customUrl
+          throw new Meteor.Error 'emptyShortUrl', 'Your ShortUrl must not be empty!'
         UrlList.update {_id: urlInput._id},
           $set: 
             longUrl: urlInput.longUrl

@@ -10,14 +10,18 @@ Template.home.events({
           isPrivate: isPrivate
         };
 
+    Helpers.validateLongUrl(longUrl);
+    if ( customUrl ) {
+      Helpers.validateCustomUrl(customUrl);
+    }
+
     Meteor.call('urlInsert', urlInput, function(error, result) {
       if (error) {
-        return alert(error.reason);
+        Errors.insert({message: error.reason});
       } else  {
         $('#long-url-input').val('');
         $('#custom-url-input').val('');
         $('#private').prop('checked', false);
-        alert("Congratulation!");
       }
     });
   }
