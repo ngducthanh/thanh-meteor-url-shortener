@@ -6,6 +6,6 @@ Template.resultItem.helpers({
     return this.isPrivate ? 'private' : 'public';
   },
   canBeEditted: function() {
-    return (this.author && this.author === Meteor.userId()) ? 'active' : 'disabled'
+    return (this.author && this.author === Meteor.userId()) ? false : true;
   }
 });

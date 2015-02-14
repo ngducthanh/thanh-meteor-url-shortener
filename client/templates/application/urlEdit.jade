@@ -1,0 +1,26 @@
+template(name="urlEdit")
+  table(class="table table-bordered table-hover")
+    tbody
+      tr
+        th.col-md-5 Long URL
+        th.col-md-5 Short URL: #{hostname}
+      tr
+        td
+          input.form-control#longUrl(type="text", value="#{longUrl}")
+        td  
+          input.form-control#shortUrl(type="text", value="#{shortUrl}")
+  div
+    .checkbox
+      p
+        strong Check or uncheck to change your URL status:
+      label
+        input#private(
+          type="checkbox"
+          name="status"
+          value="private"
+          checked="#{checkboxStatus}"
+        )
+        p Private
+    h4
+      input#save(type="button", value="Save", class="btn btn-danger btn-sm")
+
