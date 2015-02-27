@@ -27,7 +27,7 @@ Template.home.events({
 });
 
 Template.home.helpers({
-  loginOrNot: function() {
+  loggedIn: function() {
     return Meteor.userId();
   },
   activeIfRouteIs: function(route) {
