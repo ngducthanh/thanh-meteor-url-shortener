@@ -1,13 +1,12 @@
 Template.home.events({
   'submit form': function(e) {
     e.preventDefault();
-    var longUrl = $(e.target).find('#long-url-input').val(),
-        customUrl = $(e.target).find('#custom-url-input').val(),
-        isPrivate = $('#private').is(':checked') ? true : false,
+    var objectID = new Mongo.ObjectID(),
         urlInput = {
-          longUrl: longUrl,
-          customUrl: customUrl,
-          isPrivate: isPrivate
+          _id: objectID.toHexString(),
+          longUrl: $(e.target).find('#long-url-input').val(),
+          shortUrl: $(e.target).find('#custom-url-input').val(),
+          isPrivate: $('#private').is(':checked') ? true : false
         };
 
     Helpers.validateLongUrl(longUrl);

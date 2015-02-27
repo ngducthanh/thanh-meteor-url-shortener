@@ -1,11 +1,10 @@
-Meteor.methods 
-  urlInsert: (urlInput) ->
-    check urlInput, 
+Meteor.methods
+  urlUpsert: (urlInput)->
+    check urlInput,
+      _id: String
       longUrl: String
-      customUrl: Match.Optional(String)
+      shortUrl: Match.Optional(String)
       isPrivate: Boolean
-      _id: Match.Optional(String)
-      author: Match.Optional(String)
 
     shortUrlExists = (newShortUrl, _id)->
       if _id

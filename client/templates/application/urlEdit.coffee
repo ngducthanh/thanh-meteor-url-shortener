@@ -7,11 +7,10 @@ Template.urlEdit.helpers
 Template.urlEdit.events
   'click #save': ->
     urlInput = 
+       _id: @_id
       longUrl: $('#longUrl').val()
-      customUrl: $('#shortUrl').val()
+      shortUrl: $('#shortUrl').val()
       isPrivate: $('#private').is(':checked') is true
-      author: @author
-      _id: @_id
 
     Meteor.call 'urlInsert', urlInput, (error, reason)->
       if error
