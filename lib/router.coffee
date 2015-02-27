@@ -5,7 +5,7 @@ Router.configure
 
 Router.route '/',
   name: 'home'
-  subscriptions: ->
+  waitOn: ->
     Meteor.subscribe 'publicUrlList'
   data: ->
     urlList: ->
@@ -14,7 +14,7 @@ Router.route '/',
 Router.route '/url/private',
   name: 'private'
   template: 'home'
-  subscriptions: ->
+  waitOn: ->
     Meteor.subscribe 'privateUrlList'
   data: ->
     urlList: ->
@@ -31,7 +31,7 @@ requireLogin = ->
     
 Router.route '/url/edit/:shortUrl',
   name: 'urlEdit'
-  subscriptions: ->
+  waitOn: ->
     Meteor.subscribe 'privateUrlList', @params.shortUrl
   data: ->
     UrlList.findOne

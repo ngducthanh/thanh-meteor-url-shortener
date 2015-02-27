@@ -8,9 +8,4 @@ Meteor.publish 'privateUrlList', (shortUrl)->
     UrlList.find
         author: @userId
   else
-    UrlList.find shortUrl: shortUrl,
-      fields:
-        author: 0
-        longUrl: 0
-        isPrivate: 0
-        accessedUrlCount: 0
+    @ready()
