@@ -20,34 +20,17 @@ Meteor.methods
 
     Helpers.validateLongUrl urlInput.longUrl
 
-    if urlInput.customUrl
-      Helpers.validateCustomUrl urlInput.customUrl
-
-    if urlInput._id and urlInput.author
-      if (UrlList.findOne _id: urlInput._id)?.author is urlInput.author
-        
-        if not urlInput.customUrl
-          throw new Meteor.Error 'emptyShortUrl', 'Your ShortUrl must not be empty!'
-        
-        if shortUrlExists urlInput.customUrl, urlInput._id
-          throw new Meteor.Error 'shortUrlExists', 'Your short link has existed!'
-        
-        UrlList.update {_id: urlInput._id},
-          $set: 
-            longUrl: urlInput.longUrl
-            shortUrl: urlInput.customUrl
-            isPrivate: urlInput.isPrivate
-      else
-        throw new Meteor.Error 'rightAuthor', 'You are not the author of this URL!'
+    if urlInput.shortUrl
+      Helpers.validateCustomUrl urlInput.shortUrl
+      if shortUrlExists urlInput._id, urlInput.shortUrl
+        throw new Meteor.Error 'shortUrlExists', 'Your short link has existed!'
     else
-      if not urlInput.customUrl
-        shortUrl = makeUniqueShortUrl()
-      
-      else
-        if shortUrlExists urlInput.customUrl
-          throw new Meteor.Error 'shortUrlExists', 'Your custom link ' + 
-          'has already existed! Please try another one.'
-        shortUrl = urlInput.customUrl
+      urlInput.shortUrl = makeUniqueShortUrl()
+
+    originalUrl = UrlList.findOne _id: urlInput._id
+
+    if originalUrl and (@userId is null or @userId isnt originalUrl.author)
+      throw new Meteor.Error 'rightAuthor', 'You are not the author of this URL!'
 
     UrlList.upsert _id: urlInput._id,
       $set: 

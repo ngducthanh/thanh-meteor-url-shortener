@@ -10,8 +10,8 @@ Template.home.events({
         };
 
     Helpers.validateLongUrl(longUrl);
-    if ( customUrl ) {
-      Helpers.validateCustomUrl(customUrl);
+    if ( urlInput.shortUrl ) {
+      Helpers.validateCustomUrl(urlInput.shortUrl);
     }
 
     Meteor.call('urlUpsert', urlInput, function(error) {
