@@ -6,20 +6,15 @@ Meteor.methods
       shortUrl: Match.Optional(String)
       isPrivate: Boolean
 
-    shortUrlExists = (newShortUrl, _id)->
-      if _id
-        !!UrlList.find
-                    _id: $ne: _id
-                    shortUrl: newShortUrl
-                 .fetch().length
-      else
-        !!UrlList.find
-                    shortUrl: newShortUrl
-                  .fetch().length
+    shortUrlExists = (_id, newShortUrl)->
+      !!UrlList.find
+                  _id: $ne: _id
+                  shortUrl: newShortUrl
+                .fetch().length
 
     makeUniqueShortUrl = ->
       randomShortUrl = Random.id 5
-      while shortUrlExists randomShortUrl
+      while shortUrlExists urlInput._id, randomShortUrl
         randomShortUrl = Random.id 5
       randomShortUrl
 
