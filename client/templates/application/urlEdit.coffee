@@ -7,7 +7,7 @@ Template.urlEdit.helpers
 Template.urlEdit.events
   'click #save': ->
     urlInput = 
-       _id: @_id
+      _id: @_id
       longUrl: $('#longUrl').val()
       shortUrl: $('#shortUrl').val()
       isPrivate: $('#private').is(':checked') is true

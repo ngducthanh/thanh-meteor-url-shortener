@@ -9,7 +9,7 @@ Template.home.events({
           isPrivate: $('#private').is(':checked') ? true : false
         };
 
-    Helpers.validateLongUrl(longUrl);
+    Helpers.validateLongUrl(urlInput.longUrl);
     if ( urlInput.shortUrl ) {
       Helpers.validateCustomUrl(urlInput.shortUrl);
     }
