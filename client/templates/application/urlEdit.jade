@@ -3,12 +3,12 @@ template(name="urlEdit")
     tbody
       tr
         th.col-md-5 Long URL
-        th.col-md-5 Short URL: #{hostname}
+        th.col-md-5 Short URL: {{hostname}}
       tr
         td
-          input.form-control#longUrl(type="text", value="#{longUrl}")
+          input.form-control#longUrl(type="text", value="{{longUrl}}")
         td  
-          input.form-control#shortUrl(type="text", value="#{shortUrl}")
+          input.form-control#shortUrl(type="text", value="{{shortUrl}}")
   div
     .checkbox
       p
@@ -18,7 +18,7 @@ template(name="urlEdit")
           type="checkbox"
           name="status"
           value="private"
-          checked="#{checkboxStatus}"
+          checked="{{checkboxStatus}}"
         )
         p Private
     h4

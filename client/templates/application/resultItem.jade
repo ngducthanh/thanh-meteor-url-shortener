@@ -1,10 +1,10 @@
 template(name="resultItem")
   tr
-    td #{longUrl}
+    td {{longUrl}}
     td
-      a(href="/#{shortUrl}") #{hostname}#{shortUrl}
-    td #{status}
-    td #{accessedUrlCount}
+      a(href="/{{shortUrl}}") {{hostname}}{{shortUrl}}
+    td {{status}}
+    td {{accessedUrlCount}}
     td
       a(href="{{pathFor 'urlEdit'}}")
         input(
