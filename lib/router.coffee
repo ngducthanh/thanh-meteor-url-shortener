@@ -5,13 +5,11 @@ Router.configure
 
 Router.route '/',
   name: 'home'
-  template: 'home'
   subscriptions: ->
     Meteor.subscribe 'publicUrlList'
   data: ->
-    {urlList: ->
+    urlList: ->
       UrlList.find()
-    }
 
 Router.route '/url/private',
   name: 'private'
@@ -19,9 +17,8 @@ Router.route '/url/private',
   subscriptions: ->
     Meteor.subscribe 'privateUrlList'
   data: ->
-    {urlList: ->
+    urlList: ->
       UrlList.find()
-    }
 
 Router.route '/url/notfound',
   name: 'notFound'
@@ -72,6 +69,3 @@ serverSideRoutingFunction = ->
   @response.end()  
       
 Router.route '/:shortUrl', serverSideRoutingFunction, where: 'server' 
-
-
-# Router.path 'route-name-here', dataContextObject
