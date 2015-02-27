@@ -12,7 +12,7 @@ Template.urlEdit.events
       shortUrl: $('#shortUrl').val()
       isPrivate: $('#private').is(':checked') is true
 
-    Meteor.call 'urlInsert', urlInput, (error, reason)->
+    Meteor.call 'urlUpsert', urlInput, (error)->
       if error
         Errors.insert 
           message: error.reason

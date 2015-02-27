@@ -54,10 +54,13 @@ Meteor.methods
           'has already existed! Please try another one.'
         shortUrl = urlInput.customUrl
 
-      UrlList.insert 
+    UrlList.upsert _id: urlInput._id,
+      $set: 
         longUrl: urlInput.longUrl
-        shortUrl: shortUrl
-        author: Meteor.userId()
+        shortUrl: urlInput.shortUrl
         isPrivate: urlInput.isPrivate
+      $setOnInsert:
+        author: @userId
         accessedUrlCount: 0
+
    

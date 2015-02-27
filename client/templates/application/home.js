@@ -14,7 +14,7 @@ Template.home.events({
       Helpers.validateCustomUrl(customUrl);
     }
 
-    Meteor.call('urlInsert', urlInput, function(error, result) {
+    Meteor.call('urlUpsert', urlInput, function(error) {
       if (error) {
         Errors.insert({message: error.reason});
       } else  {
