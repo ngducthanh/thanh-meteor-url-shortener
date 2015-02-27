@@ -17,4 +17,4 @@ Template.urlEdit.events
         Errors.insert 
           message: error.reason
       else
-        Router.go('/url/private')
+        Router.go("/url/edit/#{urlInput.shortUrl}")
