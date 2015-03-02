@@ -1,9 +1,8 @@
 Template.home.events({
   'submit form': function(e) {
     e.preventDefault();
-    var objectID = new Mongo.ObjectID(),
-        urlInput = {
-          _id: objectID.toHexString(),
+    var urlInput = {
+          _id: Random.id(24),
           longUrl: $(e.target).find('#long-url-input').val(),
           shortUrl: $(e.target).find('#custom-url-input').val(),
           isPrivate: $('#private').is(':checked') ? true : false
