@@ -9,3 +9,12 @@ Template.resultItem.helpers({
     return (this.author && this.author === Meteor.userId()) ? false : true;
   }
 });
+
+UI.registerHelper("visibility", function () {
+  var currentRoute = Iron.Location.get().path;
+  if (currentRoute && currentRoute === '/') {
+    return 'hidden';
+  } else {
+    return 'visible';
+  }
+});

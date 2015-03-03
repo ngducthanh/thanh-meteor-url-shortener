@@ -5,7 +5,7 @@ template(name="resultItem")
       a(href="{{hostname}}{{shortUrl}}") {{hostname}}{{shortUrl}}
     td {{status}}
     td {{accessedUrlCount}}
-    td
+    td(class="{{visibility}}")
       a(href="{{pathFor 'urlEdit'}}")
         input(
           type="button"
