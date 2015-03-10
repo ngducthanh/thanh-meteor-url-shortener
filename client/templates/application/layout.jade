@@ -1,0 +1,15 @@
+template(name="layout")
+  .container
+    #header
+      p Register to create your private URLs
+      +loginButtons
+
+    #body
+      #title
+        h1 My first project: shortened URLs
+        h4 Simple url is the best!
+
+      +errors
+      +yield
+
+    #footer

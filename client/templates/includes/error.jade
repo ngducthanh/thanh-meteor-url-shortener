@@ -1,0 +1,11 @@
+template(name="errors")
+  div
+    each errors
+      +error
+
+template(name="error")
+  div(class="alert alert-danger", role="alert")
+    button#removeError.close(
+      type="button"
+      data-dismiss="alert") &times;
+    p #{message}

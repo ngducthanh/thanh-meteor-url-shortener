@@ -1,0 +1,15 @@
+template(name="result")
+  .resultTable
+    table(class="table table-bordered col-md-12 table-hover")
+      tbody
+        tr
+          th.col-md-5 Long URL
+          th.col-md-3 Short URL
+          th.col-md-2 Status
+          th.col-md-1 Accessed
+          th.col-md-1(class="{{visibility}}")
+            strong Edit
+
+        each urlList
+          +resultItem
+

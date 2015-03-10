@@ -1,0 +1,15 @@
+template(name="resultItem")
+  tr
+    td {{longUrl}}
+    td
+      a(href="{{hostname}}{{shortUrl}}") {{hostname}}{{shortUrl}}
+    td {{status}}
+    td {{accessedUrlCount}}
+    td(class="{{visibility}}")
+      a(href="{{pathFor 'urlEdit'}}")
+        input(
+          type="button"
+          class="btn btn-sm btn-success"
+          value="Edit"
+          disabled="{{canBeEditted}}"
+        )
