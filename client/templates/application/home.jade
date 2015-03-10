@@ -1,0 +1,31 @@
+template(name="home")
+  #main
+    form#input
+      .form-group
+        h4 1.Enter a long URL to make shortened
+        strong Ex: http://www.abc.com
+        input#long-url-input.form-control
+        .checkbox
+          if loggedIn
+            label
+              input#private(type="checkbox") 
+              p Private
+
+        p
+          input(class="btn btn-primary", type="submit", value="Make a short URL!")
+
+        h4 2.Custom your url
+        strong http://shortenedurl.com
+        input#custom-url-input.form-control
+        strong May contain letters, numbers, and dashes.
+
+    #output
+      h4 3. URLs:
+      
+      ul(class="nav nav-tabs nav-pills", role="tablist")
+        li(class="{{activeIfRouteIs '/'}}")
+          a(href="{{pathFor 'home'}}") Public URLs
+        li(class="{{activeIfRouteIs '/url/private'}}")
+          a(href="{{pathFor 'private'}}") Your URLs
+
+      +result

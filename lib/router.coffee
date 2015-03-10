@@ -2,30 +2,70 @@ Router.configure
   layoutTemplate: 'layout'
   loadingTemplate: 'loading'
   notFoundTemplate: 'notFound'
+
 Router.route '/',
   name: 'home'
-  subscriptions: ->
-    Meteor.subscribe 'urlList'
-Router.route '/notfound',
-  name: 'notFound'
-Router.route '/:shortUrl', 
-  name: 'redirectLink'
   waitOn: ->
-    Meteor.subscribe 'urlRedirect', @params.shortUrl
+    Meteor.subscribe 'publicUrlList'
   data: ->
-    UrlList.findOne
-      shortUrl: @params.shortUrl
+    urlList: ->
+      UrlList.find()
+
+Router.route '/url/private',
+  name: 'private'
+  template: 'home'
+  waitOn: ->
+    Meteor.subscribe 'privateUrlList'
+  data: ->
+    urlList: ->
+      UrlList.find()
+
+Router.route '/url/notfound',
+  name: 'notFound'
+      
 requireLogin = ->
-  if not Meteor.user()
+  if not Meteor.userId()
     @render 'accessDenied'
   else
     @next()
-Router.route '/urlEdit/:shortUrl',
+    
+Router.route '/url/edit/:shortUrl',
   name: 'urlEdit'
   waitOn: ->
-    Meteor.subscribe 'urlList', @params.shortUrl
+    Meteor.subscribe 'privateUrlList', @params.shortUrl
   data: ->
     UrlList.findOne
       shortUrl: @params.shortUrl
+      
 Router.onBeforeAction requireLogin, 
-  only: 'urlEdit'
+  only: ['private', 'urlEdit', 'redirectLink']
+  
+Router.route '/redirect/:shortUrl', 
+  name: 'redirectLink'
+  waitOn: ->
+    Meteor.subscribe 'privateUrlList', @params.shortUrl
+  data: ->
+    UrlList.findOne
+      shortUrl: @params.shortUrl
+      
+serverSideRoutingFunction = ->
+  redirectUrl= UrlList.findOne 
+    shortUrl: @params.shortUrl
+
+  if !redirectUrl
+    location = Router.path 'notFound'
+  else if redirectUrl.isPrivate is true
+    UrlList.update shortUrl: redirectUrl.shortUrl,
+      $inc:
+        accessedUrlCount: 1
+    location = Router.path 'redirectLink', shortUrl: redirectUrl.shortUrl
+  else
+    UrlList.update shortUrl: redirectUrl.shortUrl,
+      $inc:
+        accessedUrlCount: 1 
+    location = redirectUrl.longUrl
+    
+  @response.writeHead 302, 'Location': location
+  @response.end()  
+      
+Router.route '/:shortUrl', serverSideRoutingFunction, where: 'server' 

@@ -1,24 +1,13 @@
-Meteor.publish 'urlList', (shortUrl)->
-  if @userId
-    if shortUrl
-      check shortUrl, String
-      UrlList.find
-        $or: [
-          {author: @userId}
-          {author: null}
-        ]
-        shortUrl: shortUrl
-    else
-      UrlList.find
-        $or: [
-          {author: @userId}
-          {author: null}
-        ]
+Meteor.publish 'publicUrlList', ->
+  UrlList.find
+    isPrivate: false
+
+Meteor.publish 'privateUrlList', (shortUrl)->
+  check shortUrl, Match.Optional(String)
+  if shortUrl
+    UrlList.find
+      author: @userId
+      shortUrl: shortUrl
   else
     UrlList.find
-      status: 'public'
-      
-Meteor.publish 'urlRedirect', (shortUrl)->
-  check shortUrl, String
-  UrlList.find
-    shortUrl: shortUrl
+      author: @userId

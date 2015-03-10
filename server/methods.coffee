@@ -1,108 +1,44 @@
-Meteor.methods 
-  urlInsert: (urlInput) ->
-    customUrl = urlInput.customUrl
-    author = Meteor.userId()
-    shortUrlExists = (newShortUrl)->
-      result = UrlList.find
-          shortUrl: newShortUrl
-        .fetch().length
-      !!result
+Meteor.methods
+  urlUpsert: (urlInput)->
+    check urlInput,
+      _id: String
+      longUrl: String
+      shortUrl: Match.Optional(String)
+      isPrivate: Boolean
+
+    shortUrlExists = (_id, newShortUrl)->
+      !!UrlList.find
+                  _id: $ne: _id
+                  shortUrl: newShortUrl
+                .fetch().length
 
     makeUniqueShortUrl = ->
       randomShortUrl = Random.id 5
-      while shortUrlExists randomShortUrl
+      while shortUrlExists urlInput._id, randomShortUrl
         randomShortUrl = Random.id 5
       randomShortUrl
-    
-    check urlInput, 
-      longUrl: String
-      customUrl: String
-    if not Helpers.validateLongUrl urlInput.longUrl
-      throw new Meteor.Error 'invalidUrl', 'Your URL is invalid ' + 
-        'Please enter another one!'
-    
-    if author
-      status = 'private'
+
+    Helpers.validateLongUrl urlInput.longUrl
+
+    if urlInput.shortUrl
+      Helpers.validateCustomUrl urlInput.shortUrl
+      if shortUrlExists urlInput._id, urlInput.shortUrl
+        throw new Meteor.Error 'shortUrlExists', 'Your short link has existed!'
     else
-      status = 'public'
-  
-    if not customUrl
-      shortUrl = makeUniqueShortUrl()
-    else if Helpers.validateShortUrl customUrl
-      throw new Meteor.Error 'invalidCustomUrl', 'Your custom URL ' +  
-        'contains invalid character (e.g: !@#$%^&*).'
-    else if shortUrlExists customUrl
-      throw new Meteor.Error 'shortUrlExists', 'Your custom link ' + 
-        'has already existed! Please try another one.'
-    else
-      shortUrl = customUrl
+      urlInput.shortUrl = makeUniqueShortUrl()
 
-    urlItem = 
-      longUrl: urlInput.longUrl
-      shortUrl: shortUrl
-      author: author
-      status: status
-      accessedUrlCount: 0
-    
-    if urlInput.longUrl
-      UrlList.insert urlItem
-  
-  urlUpdate: (editedUrl)->
-    originalUrl = UrlList.findOne
-                      _id: editedUrl._id
-    shortUrlExists = (_id, newShortUrl) ->
-      result = UrlList.find
-                  _id: {$ne: _id}
-                  shortUrl: newShortUrl
-                .fetch().length
-      !!result
-    
-    check editedUrl, 
-      longUrl: String
-      shortUrl: String
-      _id: String
-      status: String
-      
-    if not Helpers.validateLongUrl editedUrl.longUrl
-      throw new Meteor.Error 'invalid', 'Your URL contains ' + 
-        'invalid character. Please enter another one!'
+    originalUrl = UrlList.findOne _id: urlInput._id
 
-    if Helpers.validateShortUrl editedUrl.shortUrl
-      throw new Meteor.Error 'invalidCustomUrl', 'Your short URL ' + 
-        'contains invalid character (e.g: !@#$%^&*).'
-    
-    if not editedUrl.shortUrl
-      throw new Meteor.Error 'emptyShortUrl', 'Short link must not be empty!'
+    if originalUrl and (@userId is null or @userId isnt originalUrl.author)
+      throw new Meteor.Error 'rightAuthor', 'You are not the author of this URL!'
 
-    if shortUrlExists editedUrl._id, editedUrl.shortUrl
-      throw new Meteor.Error 'shortUrlExists', 'Your short link ' +  
-        'has existed. Please choose another one.'
-    
-    if editedUrl.status is 'private'
-      author = @userId
-    else
-      author = null
-
-    if originalUrl
-      author = originalUrl.author
-      status = originalUrl.status
-      loginUserEdit = (author is @userId) and (status is 'private')
-      publicUserEdit = (author is null) and (status is 'public')
-      isOwnerOfUrl = loginUserEdit or publicUserEdit
-    
-    if isOwnerOfUrl 
-      UrlList.update {_id: editedUrl._id},
-        {$set: 
-          status: editedUrl.status
-          author: author
-          shortUrl: editedUrl.shortUrl
-          longUrl: editedUrl.longUrl
-          }
-  countAccessedUrl: (_id)->
-    check _id, String
-    UrlList.update {_id: _id},
-      {$inc: 
-        accessedUrlCount: 1
-      }
+    UrlList.upsert _id: urlInput._id,
+      $set: 
+        longUrl: urlInput.longUrl
+        shortUrl: urlInput.shortUrl
+        isPrivate: urlInput.isPrivate
+      $setOnInsert:
+        author: @userId
+        accessedUrlCount: 0
 
    
