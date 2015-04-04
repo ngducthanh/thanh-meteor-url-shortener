@@ -1,0 +1,5 @@
+.resultTable {
+  max-height: 300px;
+  overflow: auto;
+  margin-bottom: 50px;
+}
