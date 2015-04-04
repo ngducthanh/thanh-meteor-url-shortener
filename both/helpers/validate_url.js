@@ -26,4 +26,3 @@ Helpers.validateCustomUrl = function(url) {
     throw new Meteor.Error('invalidCustomUrl', 'Your customURL contains invalid character. (e.g. !@#$%^&)');
   }
 }
-
