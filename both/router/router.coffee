@@ -5,48 +5,18 @@ Router.configure
 
 Router.route '/',
   name: 'home'
-  waitOn: ->
-    Meteor.subscribe 'publicUrlList'
-  data: ->
-    urlList: ->
-      UrlList.find()
 
 Router.route '/url/private',
   name: 'private'
-  template: 'home'
-  waitOn: ->
-    Meteor.subscribe 'privateUrlList'
-  data: ->
-    urlList: ->
-      UrlList.find()
 
 Router.route '/url/notfound',
   name: 'notFound'
       
-requireLogin = ->
-  if not Meteor.userId()
-    @render 'accessDenied'
-  else
-    @next()
-    
 Router.route '/url/edit/:shortUrl',
   name: 'urlEdit'
-  waitOn: ->
-    Meteor.subscribe 'privateUrlList', @params.shortUrl
-  data: ->
-    UrlList.findOne
-      shortUrl: @params.shortUrl
-      
-Router.onBeforeAction requireLogin, 
-  only: ['private', 'urlEdit', 'redirectLink']
   
 Router.route '/redirect/:shortUrl', 
   name: 'redirectLink'
-  waitOn: ->
-    Meteor.subscribe 'privateUrlList', @params.shortUrl
-  data: ->
-    UrlList.findOne
-      shortUrl: @params.shortUrl
       
 serverSideRoutingFunction = ->
   redirectUrl= UrlList.findOne 
